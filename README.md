@@ -43,6 +43,11 @@ the adapter always pre-configured. That way, you won't interfere with your norma
  Of course, if you usualy use Wi-Fi to connect to the Internet, and you don't use the Ethernet adapter that's built
 into your host computer, you might just want to dedicate that adapter to this purpose.  
 
+ If your host computer is connected to a corporate network, bear in mind that the network 192.168.2.*
+ might already be in use -- in that case, you won't be able to talk to the Conduit. TO be safe, 
+ disconnect your host computer from all other networks while doing the initial configuration.
+
+
 5. Copy `installer.sh` to the Conduit using Putty SCP (on Windows, `pscp.exe`) or `scp` (Cygwin, Linux or macOS).
 
   `host-machine $ `**`scp installer.sh root@192.168.2.1:`**
@@ -64,17 +69,19 @@ you're using ssh.
    Internet. However, do not connect the Conduit directly (without firewall) to
    the Internet to prevent possible security issues!
 
-   After the network settings have been provided, the Conduit shuts down. 
+   After the network settings have been provided, the Conduit shuts down so you can move it to the production network. 
 
- Note that the script says "the gateway wil now shutdown", but you need to press "enter" in order to 
- get the gateway to continue into the shutdown process.  Here's an example:
+ Here's an example:
 
- `The gateway will now shutdown. Remove power once the status led`   
- `stopped blinking, connect the gateway to the new network and reapply`  
- `power.`  
+ `When you press enter to confirm, the Conduit will start shutting down.`   
+ `Wait for the front-panel STATUS light to stop blinking. Then disconnect`  
+ `power from the Conduit, connect the Conduit to the new network, and`  
+ `reapply power.`
 
- `Press enter to continue`  
- _(press enter)_
+ `After the Conduit reboots, log in again as root (using the password you`
+ `set previously), and rerun installer.sh (this script) to complete the setup.`
+
+ `Press enter to begin shut-down process: `  _(press enter)_
 
  `Broadcast message from root@mtcdt (pts/0) (Sun Aug  7 17:08:03 2016):`  
   
@@ -84,12 +91,12 @@ you're using ssh.
  `-bash:myhost::/cygdrive/c/multitech-installer $ `
 
 7. Once the
-   LEDs on the front of the Conduit stop flashing, power the Conduit down and
+   lights on the front of the Conduit stop flashing, power the Conduit down and
    connect it to the target network. At the same time, **restore the network settings on your
    host computer** (if you changed them away from the default during step 4).
 
-8. Log on to the Conduit using putty/ssh with the IP address information provided in
-   step 6 or the IP address assigned to it by the DHCP server (when using DHCP)
+8. Log on to the Conduit as root, using putty or ssh. If using static addresses, you connect to the IP address provided in
+   step 6. If using DHCP, use the IP address assigned to it by the DHCP server.
 
 9. Restart the installer to continue installation.
 

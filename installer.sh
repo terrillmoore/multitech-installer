@@ -20,11 +20,22 @@ fi
 grep secure $STATUSFILE > /dev/null 2> /dev/null
 if [ $? -ne 0 ] ; then
 	# Start by securing the device
-	echo "Securing access to the device, enter the same password twice and"
-	echo "make sure to save this password as the device requires factory"
+	echo "We start by securing access to the Conduit, which initially is open."
+	echo "When prompted, enter the old password for root access (initially 'root')"
+	echo "and then enter a new password to be used to control root access."
+	echo "Please be sure to save this password, as the Conduit requires factory"
 	echo "reset when the password is lost!!"
+	echo ""
+	echo "(If you need to do a factory reset, it's easy, just hold the front-panel"
+	echo "reset button for 10 seconds and wait for the Conduit to reboot. However"
+	echo "all information on the Conduit root file system will be erased, and"
+	echo "you'll need to reconfigure from scratch.)"
 	passwd root
-	echo "secure" >> $STATUSFILE
+	if [ $? -eq 0 ] ; then
+		echo "secure" >> $STATUSFILE
+	else
+		echo "Password not set, exiting. Please restart the install process."
+	fi
 fi
 
 # now set the time zone
@@ -108,7 +119,7 @@ if [ $? -ne 0 ] ; then
 	# Interact with the user via stderr and stdin.
 	# Contributed by Paul Eggert.  This file is in the public domain.
 
-	# Specify default values for environment variables if they are unset.
+	# Specify default values for variables
 	AWK=awk
 	TZDIR=/usr/share/zoneinfo
 
@@ -522,21 +533,21 @@ _EOF_
 		No)
 			got_it=No
 			while [ $got_it != Yes ] ; do
-				echo "Please provide network parameters"
-				echo -n "IP address: "
+				echo "Please provide IPv4 network parameters."
+				echo -n "IPv4 address: "
 				read ip
 				echo -n "netmask: "
 				read mask
 				echo -n "gateway: "
 				read gw
-				echo -n "DNS IP (use 8.8.8.8 for Google DNS): "
+				echo -n "DNS server IPv4 address (use 8.8.8.8 for Google DNS): "
 				read dns
 				echo
 				echo "Supplied information:"
-				echo "IP     : $ip"
-				echo "Netmask: $mask"
-				echo "Gateway: $gw"
-				echo "DNS IP : $dns"		
+				echo "IPv4 address: $ip"
+				echo "  Netmask:    $mask"
+				echo "  Gateway:    $gw"
+				echo "  DNS IP :    $dns"
 				doselect Yes No
 				got_it=$select_result
 			done
@@ -577,11 +588,15 @@ _EOF_
 	echo "network" >> $STATUSFILE
 	echo "Network configuration written"
 	echo ""
-	echo "The gateway will now shutdown. Remove power once the status led"
-	echo "stopped blinking, connect the gateway to the new network and reapply"
-	echo "power."
+	echo "When you press enter to confirm, the Conduit will start shutting down."
+	echo "Wait for the front-panel STATUS light to stop blinking. Then disconnect"
+	echo "power from the Conduit, connect the Conduit to the new network, and"
+	echo "reapply power."
 	echo ""
-	echo "Press enter to continue"
+	echo "After the Conduit reboots, log in again as root (using the password you"
+	echo "set previously), and rerun $0 (this script) to complete the setup."
+	echo ""
+	echo -n "Press enter to begin shut-down process: "
 	read n
 	sync;sync;sync
 	shutdown -h now
@@ -592,8 +607,8 @@ fi
 #
 wget http://www.thethingsnetwork.org/ --no-check-certificate -O /dev/null -o /dev/null
 if [ $? -ne 0 ] ; then
-	echo "Error in network settings, cannot access www.thethingsnetwork.org"
-	echo "Check network settings and rerun this script to correct the setup"
+	echo "Error in network settings: cannot access www.thethingsnetwork.org."
+	echo "Check network settings and rerun this script to correct the setup."
 	grep -v network $STATUSFILE > $STATUSFILE.tmp
 	mv $STATUSFILE.tmp $STATUSFILE
 	exit 1
