@@ -43,8 +43,8 @@ the adapter always pre-configured. That way, you won't interfere with your norma
  Of course, if you usualy use Wi-Fi to connect to the Internet, and you don't use the Ethernet adapter that's built
 into your host computer, you might just want to dedicate that adapter to this purpose.  
 
- If your host computer is connected to a corporate network, bear in mind that the network 192.168.2.*
- might already be in use -- in that case, you won't be able to talk to the Conduit. TO be safe, 
+ If your host computer is connected to a corporate network, bear in mind that the network 192.168.2.0/24
+ might already be in use -- in that case, you won't be able to talk to the Conduit. To be safe, 
  disconnect your host computer from all other networks while doing the initial configuration.
 
 
