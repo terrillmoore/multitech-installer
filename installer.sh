@@ -14,7 +14,7 @@ FILENAME=poly-packet-forwarder_${VERSION}_arm926ejste.ipk
 URL=https://raw.github.com/kersing/multitech-installer/master/${FILENAME}
 
 if [ ! -f $STATUSFILE ] ; then
-	touch /var/config/.installer
+	touch $STATUSFILE
 fi
 
 grep secure $STATUSFILE > /dev/null 2> /dev/null
