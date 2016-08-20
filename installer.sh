@@ -24,8 +24,7 @@ grep secure $STATUSFILE > /dev/null 2> /dev/null
 if [ $? -ne 0 ] ; then
 	# Start by securing the device
 	echo "We start by securing access to the Conduit, which initially is open."
-	echo "When prompted, enter the old password for root access (initially 'root')"
-	echo "and then enter a new password to be used to control root access."
+	echo "When prompted, enter the password to be used to control root access."
 	echo "Please be sure to save this password, as the Conduit requires factory"
 	echo "reset when the password is lost!!"
 	echo ""
