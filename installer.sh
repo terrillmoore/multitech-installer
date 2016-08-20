@@ -13,6 +13,9 @@ FILENAME=poly-packet-forwarder_${VERSION}_arm926ejste.ipk
 #URL=https://raw.github.com/kersing/packet_forwarder/master/multitech-bin/${FILENAME}
 URL=https://raw.github.com/kersing/multitech-installer/master/${FILENAME}
 
+#
+# always start with an empty status file.
+#
 if [ ! -f $STATUSFILE ] ; then
 	touch $STATUSFILE
 fi
