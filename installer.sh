@@ -37,6 +37,7 @@ if [ $? -ne 0 ] ; then
 		echo "secure" >> $STATUSFILE
 	else
 		echo "Password not set, exiting. Please restart the install process."
+		exit 1
 	fi
 fi
 
