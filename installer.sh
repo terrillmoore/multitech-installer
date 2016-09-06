@@ -719,6 +719,7 @@ if [ $? -ne 0 ] ; then
 _EOF_
 	if [ X"$lat" != X"0" -o X"$lon" != X"0" ] ; then
 		echo '        "fake_gps": true,' >> /var/config/lora/local_conf.json
+		echo '        "gps" : true,' >> /var/config/lora/local_conf.json
 	else
 		echo '        "fake_gps": false,' >> /var/config/lora/local_conf.json
 	fi
